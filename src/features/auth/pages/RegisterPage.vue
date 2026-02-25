@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useForm } from 'vee-validate'
 import { useRegisterMutation } from '../composables/use-register-mutation'
@@ -12,6 +12,8 @@ import {
 
 const registerMutation = useRegisterMutation()
 const successMessage = ref('')
+const registerError = computed(() => registerMutation.error.value)
+const registerIsPending = computed(() => registerMutation.isPending.value)
 
 const { handleSubmit, resetForm } = useForm({
   validationSchema: registerSchema,
@@ -36,8 +38,8 @@ const onSubmit = handleSubmit((values) => {
       </div>
 
       <form @submit="onSubmit" class="space-y-4">
-        <div v-if="registerMutation.error" class="p-3 bg-destructive/10 border border-destructive/20 text-destructive text-sm rounded-md">
-          {{ getErrorMessage(registerMutation.error) }}
+        <div v-if="registerError" class="p-3 bg-destructive/10 border border-destructive/20 text-destructive text-sm rounded-md">
+          {{ getErrorMessage(registerError) }}
         </div>
         
         <div v-if="successMessage" class="p-3 bg-green-500/10 border border-green-500/20 text-green-600 text-sm rounded-md">
@@ -48,14 +50,14 @@ const onSubmit = handleSubmit((values) => {
           name="name" 
           label="Nome" 
           placeholder="Seu nome completo" 
-          :disabled="!!registerMutation.isPending" 
+          :disabled="!!registerIsPending" 
         />
 
         <FormInput 
           name="email" 
           label="E-mail" 
           placeholder="exemplo@teste.com" 
-          :disabled="!!registerMutation.isPending" 
+          :disabled="!!registerIsPending" 
         />
 
         <FormInput 
@@ -63,10 +65,10 @@ const onSubmit = handleSubmit((values) => {
           label="Senha" 
           type="password" 
           placeholder="••••••••" 
-          :disabled="!!registerMutation.isPending" 
+          :disabled="!!registerIsPending" 
         />
 
-        <Button type="submit" class="w-full" :loading="!!registerMutation.isPending">
+        <Button type="submit" class="w-full" :loading="registerIsPending">
           Registrar
         </Button>
       </form>

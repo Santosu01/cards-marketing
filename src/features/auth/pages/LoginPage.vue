@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useForm } from 'vee-validate'
 import { useLoginMutation } from '../composables/use-login-mutation'
@@ -10,6 +11,8 @@ import {
 } from '@/components/ui/form'
 
 const loginMutation = useLoginMutation()
+const loginError = computed(() => loginMutation.error.value)
+const loginIsPending = computed(() => loginMutation.isPending.value)
 
 const { handleSubmit } = useForm({
   validationSchema: loginSchema,
@@ -29,15 +32,15 @@ const onSubmit = handleSubmit((values) => {
       </div>
 
       <form @submit="onSubmit" class="space-y-4">
-        <div v-if="loginMutation.error" class="p-3 bg-destructive/10 border border-destructive/20 text-destructive text-sm rounded-md">
-          {{ getErrorMessage(loginMutation.error) }}
+        <div v-if="loginError" class="p-3 bg-destructive/10 border border-destructive/20 text-destructive text-sm rounded-md">
+          {{ getErrorMessage(loginError) }}
         </div>
 
         <FormInput 
           name="email" 
           label="E-mail" 
           placeholder="exemplo@teste.com" 
-          :disabled="!!loginMutation.isPending" 
+          :disabled="!!loginIsPending" 
         />
 
         <FormInput 
@@ -45,10 +48,10 @@ const onSubmit = handleSubmit((values) => {
           label="Senha" 
           type="password" 
           placeholder="••••••••" 
-          :disabled="!!loginMutation.isPending" 
+          :disabled="!!loginIsPending" 
         />
 
-        <Button type="submit" class="w-full" :loading="!!loginMutation.isPending">
+        <Button type="submit" class="w-full" :loading="loginIsPending">
           Entrar
         </Button>
       </form>
