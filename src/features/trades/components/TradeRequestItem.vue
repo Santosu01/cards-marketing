@@ -29,7 +29,7 @@ const formatDate = (date: string) => {
 
 <template>
   <div
-    class="group bg-card/40 hover:border-primary/30 animate-in fade-in slide-in-from-bottom-4 relative rounded-2xl border-2 border-white/5 backdrop-blur-xl transition-all duration-500 hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)]"
+    class="group bg-card/40 hover:border-primary/30 animate-in fade-in slide-in-from-bottom-4 relative flex h-full flex-col rounded-2xl border-2 border-white/5 backdrop-blur-xl transition-all duration-500 hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)]"
   >
     <!-- Header: Duelist Info -->
     <div class="flex items-center justify-between border-b border-white/5 bg-white/[0.02] p-4">
@@ -81,7 +81,7 @@ const formatDate = (date: string) => {
     </div>
 
     <!-- Body: The Duel Board -->
-    <div class="relative flex flex-col gap-6 p-5">
+    <div class="relative flex flex-1 flex-col gap-6 p-5">
       <!-- Decorative background glow -->
       <div
         class="from-primary/5 pointer-events-none absolute inset-0 bg-gradient-to-tr via-transparent to-transparent"
@@ -97,7 +97,9 @@ const formatDate = (date: string) => {
           <span class="text-primary">{{ offering.length }}</span>
         </h4>
         <div class="grid grid-cols-4 gap-2">
-          <GameCard v-for="tc in offering" :key="tc.id" :card="tc.card" variant="compact" />
+          <div v-for="tc in offering" :key="tc.id" class="h-full">
+            <GameCard :card="tc.card" variant="compact" class="h-full" />
+          </div>
         </div>
       </div>
 
@@ -123,7 +125,9 @@ const formatDate = (date: string) => {
           <span class="text-gold-gradient text-yellow-500">{{ receiving.length }}</span>
         </h4>
         <div class="grid grid-cols-4 gap-2">
-          <GameCard v-for="tc in receiving" :key="tc.id" :card="tc.card" variant="compact" />
+          <div v-for="tc in receiving" :key="tc.id" class="h-full">
+            <GameCard :card="tc.card" variant="compact" class="h-full" />
+          </div>
         </div>
       </div>
     </div>
