@@ -2,6 +2,10 @@
 
 > Plataforma de troca de cartas colecionáveis — encontre as cartas que faltam na sua coleção e negocie com outros jogadores de forma fácil e segura.
 
+## 🌐 Demo ao vivo
+
+> **[▶ Acesse a demonstração em cards-marketing.vercel.app](https://cards-marketing.vercel.app/)** _(disponível por tempo limitado)_
+
 ---
 
 ## 📋 Índice

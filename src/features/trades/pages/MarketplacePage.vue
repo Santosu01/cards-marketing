@@ -115,7 +115,7 @@ const confirmDelete = () => {
 
     <!-- Empty State -->
     <div
-      v-else-if="trades?.list.length === 0"
+      v-else-if="!trades?.list?.length"
       class="group rounded-3xl border-2 border-dashed border-white/5 bg-white/[0.02] py-32 text-center"
     >
       <div
@@ -132,9 +132,12 @@ const confirmDelete = () => {
     </div>
 
     <!-- Grid -->
-    <div v-else class="grid grid-cols-1 gap-8 pb-10 md:grid-cols-2 lg:grid-cols-3">
+    <div
+      v-else-if="trades?.list?.length"
+      class="grid grid-cols-1 gap-8 pb-10 md:grid-cols-2 lg:grid-cols-3"
+    >
       <TradeRequestItem
-        v-for="trade in trades?.list"
+        v-for="trade in trades.list"
         :key="trade.id"
         :trade="trade"
         :is-own="trade.userId === user?.id"
