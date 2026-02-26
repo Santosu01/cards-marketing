@@ -5,7 +5,7 @@ import { useAuthStore } from '../stores/auth'
 import type { LoginFormValues } from '../schemas/login-schema'
 import type { LoginResponse } from '../types'
 
-export function useLoginMutation() {
+export function useLoginMutation(redirectPath: string = '/') {
   const router = useRouter()
   const authStore = useAuthStore()
 
@@ -13,7 +13,7 @@ export function useLoginMutation() {
     mutationFn: (credentials) => login(credentials),
     onSuccess: (response) => {
       authStore.setAuth(response.token, response.user)
-      router.push('/')
+      router.push(redirectPath)
     },
   })
 }
