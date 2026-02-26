@@ -4,6 +4,8 @@ import { RouterLink } from 'vue-router'
 import { useTrades } from '../composables/use-trades'
 import { useDeleteTrade } from '../composables/use-delete-trade'
 import { useAuth } from '@/features/auth/composables/use-auth'
+import { getErrorMessage } from '@/lib/error-handler'
+import { useToast } from '@/composables/use-toast'
 import TradeRequestItem from '../components/TradeRequestItem.vue'
 import Button from '@/components/ui/Button.vue'
 import ConfirmationDialog from '@/components/ui/ConfirmationDialog.vue'
@@ -12,6 +14,7 @@ import { Plus, Database, RefreshCw } from 'lucide-vue-next'
 const { isAuthenticated, user } = useAuth()
 const { data: trades, isLoading, isError, refetch } = useTrades()
 const { mutate: deleteTrade, isPending: isDeleting } = useDeleteTrade()
+const toast = useToast()
 
 const pendingDeleteId = ref<string | null>(null)
 const isConfirmOpen = ref(false)
@@ -29,6 +32,7 @@ const confirmDelete = () => {
       isConfirmOpen.value = false
       refetch()
     },
+    onError: (err) => toast.error(getErrorMessage(err)),
   })
 }
 </script>

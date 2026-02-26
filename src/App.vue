@@ -2,6 +2,7 @@
 import { RouterView } from 'vue-router'
 import Navbar from '@/components/layout/Navbar.vue'
 import Footer from '@/components/layout/Footer.vue'
+import ToastContainer from '@/components/ui/ToastContainer.vue'
 </script>
 
 <template>
@@ -22,5 +23,6 @@ import Footer from '@/components/layout/Footer.vue'
     </main>
 
     <Footer />
+    <ToastContainer />
   </div>
 </template>

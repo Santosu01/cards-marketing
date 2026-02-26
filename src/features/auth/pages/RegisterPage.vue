@@ -6,10 +6,12 @@ import { useRegister } from '../composables/use-register'
 import { useLogin } from '../composables/use-login'
 import { registerSchema } from '../schemas/register-schema'
 import { getErrorMessage } from '@/lib/error-handler'
+import { useToast } from '@/composables/use-toast'
 import Button from '@/components/ui/Button.vue'
 import { FormInput, FormPasswordInput } from '@/components/ui/form'
 
 const router = useRouter()
+const toast = useToast()
 const registerMutation = useRegister()
 const loginMutation = useLogin('/my-cards')
 
@@ -25,16 +27,10 @@ const { handleSubmit, resetForm } = useForm({
 
 const makeLogin = (email: string, password: string) => {
   loginMutation.mutate(
+    { email, password },
     {
-      email,
-      password,
-    },
-    {
-      onSuccess: () => {
-        resetForm()
-      },
-      onError: (error) => {
-        console.error('Auto-login failed after registration:', error)
+      onSuccess: () => resetForm(),
+      onError: () => {
         resetForm()
         router.push('/login')
       },
@@ -48,6 +44,7 @@ const onSubmit = handleSubmit((values) => {
       successMessage.value = 'Inscrit de Duelista criado com sucesso! Iniciando sua jornada...'
       makeLogin(values.email, values.password)
     },
+    onError: (err) => toast.error(getErrorMessage(err)),
   })
 })
 </script>
@@ -72,20 +69,6 @@ const onSubmit = handleSubmit((values) => {
       </div>
 
       <form @submit="onSubmit" class="relative z-10 space-y-5">
-        <div
-          v-if="registerError"
-          class="bg-destructive/10 border-destructive/20 text-destructive animate-in slide-in-from-top-2 rounded-lg border-2 p-4 text-[10px] font-black tracking-widest uppercase"
-        >
-          {{ getErrorMessage(registerError) }}
-        </div>
-
-        <div
-          v-if="successMessage"
-          class="bg-primary/10 border-primary/20 text-primary animate-in slide-in-from-top-2 rounded-lg border-2 p-4 text-[10px] font-black tracking-widest uppercase"
-        >
-          {{ successMessage }}
-        </div>
-
         <FormInput
           name="name"
           label="Nome do Duelista"
@@ -106,6 +89,20 @@ const onSubmit = handleSubmit((values) => {
           placeholder="••••••••"
           :disabled="!!registerIsPending"
         />
+
+        <div
+          v-if="registerError"
+          class="bg-destructive/10 border-destructive/20 text-destructive animate-in slide-in-from-top-2 rounded-lg border-2 p-4 text-[10px] font-black tracking-widest uppercase"
+        >
+          {{ getErrorMessage(registerError) }}
+        </div>
+
+        <div
+          v-if="successMessage"
+          class="bg-primary/10 border-primary/20 text-primary animate-in slide-in-from-top-2 rounded-lg border-2 p-4 text-[10px] font-black tracking-widest uppercase"
+        >
+          {{ successMessage }}
+        </div>
 
         <Button type="submit" variant="gold" class="mt-2 h-12 w-full" :loading="registerIsPending">
           Registrar e Jogar

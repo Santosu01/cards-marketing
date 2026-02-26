@@ -7,9 +7,12 @@ import { useAddCards } from '../composables/use-add-cards'
 import CardGrid from '../components/CardGrid.vue'
 import Button from '@/components/ui/Button.vue'
 import ConfirmationDialog from '@/components/ui/ConfirmationDialog.vue'
+import { getErrorMessage } from '@/lib/error-handler'
+import { useToast } from '@/composables/use-toast'
 import { Library, Sparkles } from 'lucide-vue-next'
 
 const router = useRouter()
+const toast = useToast()
 
 const { data: allCards, isLoading: loadingAllCards } = useAllCards(1, 100)
 const { data: myCards } = useMyCards()
@@ -30,6 +33,7 @@ const confirmAddCards = () => {
       pendingSelection.value = []
       router.push({ name: 'my-cards' })
     },
+    onError: (err) => toast.error(getErrorMessage(err)),
   })
 }
 </script>

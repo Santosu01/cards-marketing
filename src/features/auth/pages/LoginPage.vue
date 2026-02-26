@@ -5,9 +5,11 @@ import { useForm } from 'vee-validate'
 import { useLogin } from '../composables/use-login'
 import { loginSchema } from '../schemas/login-schema'
 import { getErrorMessage } from '@/lib/error-handler'
+import { useToast } from '@/composables/use-toast'
 import Button from '@/components/ui/Button.vue'
 import { FormInput, FormPasswordInput } from '@/components/ui/form'
 
+const toast = useToast()
 const loginMutation = useLogin()
 const loginError = computed(() => loginMutation.error.value)
 const loginIsPending = computed(() => loginMutation.isPending.value)
@@ -17,7 +19,9 @@ const { handleSubmit } = useForm({
 })
 
 const onSubmit = handleSubmit((values) => {
-  loginMutation.mutate(values)
+  loginMutation.mutate(values, {
+    onError: (err) => toast.error(getErrorMessage(err)),
+  })
 })
 </script>
 
@@ -39,13 +43,6 @@ const onSubmit = handleSubmit((values) => {
       </div>
 
       <form @submit="onSubmit" class="relative z-10 space-y-6">
-        <div
-          v-if="loginError"
-          class="bg-destructive/10 border-destructive/20 text-destructive animate-in slide-in-from-top-2 rounded-lg border-2 p-4 text-[10px] font-black tracking-widest uppercase"
-        >
-          {{ getErrorMessage(loginError) }}
-        </div>
-
         <FormInput
           name="email"
           label="E-mail de Cadastro"
@@ -59,6 +56,13 @@ const onSubmit = handleSubmit((values) => {
           placeholder="••••••••"
           :disabled="!!loginIsPending"
         />
+
+        <div
+          v-if="loginError"
+          class="bg-destructive/10 border-destructive/20 text-destructive animate-in slide-in-from-top-2 rounded-lg border-2 p-4 text-[10px] font-black tracking-widest uppercase"
+        >
+          {{ getErrorMessage(loginError) }}
+        </div>
 
         <Button type="submit" variant="gold" class="h-12 w-full" :loading="loginIsPending">
           Entrar no Jogo

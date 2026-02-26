@@ -6,9 +6,12 @@ import { useAllCards } from '@/features/cards/composables/use-all-cards'
 import { useCreateTrade } from '../composables/use-create-trade'
 import CardGrid from '@/features/cards/components/CardGrid.vue'
 import Button from '@/components/ui/Button.vue'
+import { getErrorMessage } from '@/lib/error-handler'
+import { useToast } from '@/composables/use-toast'
 import { ArrowRight, Check, Loader2, Info, ChevronLeft, Sparkles, Sword } from 'lucide-vue-next'
 
 const router = useRouter()
+const toast = useToast()
 const { data: myCards, isLoading: loadingMyCards } = useMyCards()
 const { data: allCards, isLoading: loadingAllCards } = useAllCards(1, 100)
 const createTradeMutation = useCreateTrade()
@@ -53,9 +56,8 @@ const handleSubmit = () => {
   createTradeMutation.mutate(
     { cards },
     {
-      onSuccess: () => {
-        router.push('/')
-      },
+      onSuccess: () => router.push('/'),
+      onError: (err) => toast.error(getErrorMessage(err)),
     },
   )
 }

@@ -70,6 +70,17 @@ const closeMenu = () => {
           </RouterLink>
           <RouterLink
             v-if="isAuthenticated"
+            to="/my-cards/library"
+            class="hover:text-primary group relative py-2 text-xs font-black tracking-[0.2em] uppercase transition-all"
+            active-class="text-primary"
+          >
+            Adicionar Cartas
+            <span
+              class="bg-primary absolute bottom-0 left-0 h-[3px] w-full origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100"
+            ></span>
+          </RouterLink>
+          <RouterLink
+            v-if="isAuthenticated"
             to="/my-trades"
             class="hover:text-primary group relative py-2 text-xs font-black tracking-[0.2em] uppercase transition-all"
             active-class="text-primary"
@@ -151,6 +162,14 @@ const closeMenu = () => {
             class="hover:text-primary border-b border-white/5 py-3 text-sm font-black tracking-widest uppercase transition-colors"
           >
             Minha Coleção
+          </RouterLink>
+          <RouterLink
+            v-if="isAuthenticated"
+            to="/my-cards/library"
+            @click="closeMenu"
+            class="hover:text-primary border-b border-white/5 py-3 text-sm font-black tracking-widest uppercase transition-colors"
+          >
+            Adicionar Cartas
           </RouterLink>
           <RouterLink
             v-if="isAuthenticated"
