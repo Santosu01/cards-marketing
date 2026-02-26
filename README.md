@@ -117,7 +117,7 @@ Crie um arquivo `.env` na raiz do projeto com base no `.env.example`:
 
 ```env
 # URL base da API REST
-VITE_API_BASE_URL=https://cards-marketplace-api.onrender.com
+VITE_API_BASE_URL=<adicione a URL da sua API>
 ```
 
 > **Atenção:** O prefixo `VITE_` é obrigatório para que as variáveis fiquem acessíveis no código cliente via `import.meta.env`.
