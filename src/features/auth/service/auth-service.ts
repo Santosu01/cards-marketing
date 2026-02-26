@@ -1,10 +1,15 @@
 import api from '@/lib/axios'
-import type { LoginResponse, RegisterResponse } from '../types'
+import type { LoginResponse, RegisterResponse, User } from '../types'
 import type { LoginFormValues } from '../schemas/login-schema'
 import type { RegisterFormValues } from '../schemas/register-schema'
 
 export async function login(data: LoginFormValues): Promise<LoginResponse> {
   const response = await api.post<LoginResponse>('/login', data)
+  return response.data
+}
+
+export async function getMe(): Promise<User> {
+  const response = await api.get<User>('/me')
   return response.data
 }
 

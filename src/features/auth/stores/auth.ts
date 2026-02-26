@@ -4,25 +4,25 @@ import type { User } from '../types'
 import { cookies } from '@/lib/cookies'
 
 export const useAuthStore = defineStore('auth', () => {
-  const user = ref<User | null>(
-    cookies.get('user') ? JSON.parse(cookies.get('user')!) : null
-  )
+  const user = ref<User | null>(null)
   const token = ref<string | null>(cookies.get('token') || null)
 
   const isAuthenticated = computed(() => !!token.value)
+
+  function setUser(newUser: User | null) {
+    user.value = newUser
+  }
 
   function setAuth(newToken: string, newUser: User) {
     token.value = newToken
     user.value = newUser
     cookies.set('token', newToken, 7)
-    cookies.set('user', JSON.stringify(newUser), 7)
   }
 
   function logout() {
     token.value = null
     user.value = null
     cookies.remove('token')
-    cookies.remove('user')
   }
 
   return {
@@ -30,6 +30,7 @@ export const useAuthStore = defineStore('auth', () => {
     token,
     isAuthenticated,
     setAuth,
+    setUser,
     logout,
   }
 })
