@@ -4,7 +4,7 @@ import { getAllCards } from '../service/cards-service'
 
 export const ALL_CARDS_QUERY_KEY = ['all-cards'] as const
 
-export function useAllCardsQuery(
+export function useAllCards(
   page: MaybeRefOrGetter<number> = 1,
   limit: MaybeRefOrGetter<number> = 100,
   enabled: MaybeRefOrGetter<boolean> = true,

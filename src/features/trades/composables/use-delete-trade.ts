@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import { deleteTrade } from '../service/trades-service'
-import { TRADES_QUERY_KEY } from './use-trades-query'
+import { TRADES_QUERY_KEY } from './use-trades'
 
-export function useDeleteTradeMutation() {
+export function useDeleteTrade() {
   const queryClient = useQueryClient()
 
   return useMutation({

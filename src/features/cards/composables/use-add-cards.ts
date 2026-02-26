@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import { addCards } from '../service/cards-service'
-import { MY_CARDS_QUERY_KEY } from './use-my-cards-query'
+import { MY_CARDS_QUERY_KEY } from './use-my-cards'
 
-export function useAddCardsMutation() {
+export function useAddCards() {
   const queryClient = useQueryClient()
 
   return useMutation({

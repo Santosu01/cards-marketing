@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useAllCardsQuery } from '../composables/use-all-cards-query'
-import { useMyCardsQuery } from '../composables/use-my-cards-query'
-import { useAddCardsMutation } from '../composables/use-add-cards-mutation'
+import { useAllCards } from '../composables/use-all-cards'
+import { useMyCards } from '../composables/use-my-cards'
+import { useAddCards } from '../composables/use-add-cards'
 import CardGrid from '../components/CardGrid.vue'
 import Button from '@/components/ui/Button.vue'
 import ConfirmationDialog from '@/components/ui/ConfirmationDialog.vue'
@@ -11,9 +11,9 @@ import { Library, Sparkles } from 'lucide-vue-next'
 
 const router = useRouter()
 
-const { data: allCards, isLoading: loadingAllCards } = useAllCardsQuery(1, 100)
-const { data: myCards } = useMyCardsQuery()
-const { mutateAsync: addCards, isPending: isAddingCards } = useAddCardsMutation()
+const { data: allCards, isLoading: loadingAllCards } = useAllCards(1, 100)
+const { data: myCards } = useMyCards()
+const { mutate: addCards, isPending: isAddingCards } = useAddCards()
 
 const isConfirmOpen = ref(false)
 const pendingSelection = ref<string[]>([])
@@ -23,11 +23,14 @@ const handleAddCards = (cardIds: string[]) => {
   isConfirmOpen.value = true
 }
 
-const confirmAddCards = async () => {
-  await addCards(pendingSelection.value)
-  isConfirmOpen.value = false
-  pendingSelection.value = []
-  router.push({ name: 'my-cards' })
+const confirmAddCards = () => {
+  addCards(pendingSelection.value, {
+    onSuccess: () => {
+      isConfirmOpen.value = false
+      pendingSelection.value = []
+      router.push({ name: 'my-cards' })
+    },
+  })
 }
 </script>
 

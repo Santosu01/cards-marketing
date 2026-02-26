@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { useMyCardsQuery } from '@/features/cards/composables/use-my-cards-query'
-import { useAllCardsQuery } from '@/features/cards/composables/use-all-cards-query'
-import { useCreateTradeMutation } from '../composables/use-create-trade-mutation'
+import { useMyCards } from '@/features/cards/composables/use-my-cards'
+import { useAllCards } from '@/features/cards/composables/use-all-cards'
+import { useCreateTrade } from '../composables/use-create-trade'
 import CardGrid from '@/features/cards/components/CardGrid.vue'
 import Button from '@/components/ui/Button.vue'
 import { ArrowRight, Check, Loader2, Info, ChevronLeft, Sparkles, Sword } from 'lucide-vue-next'
 
 const router = useRouter()
-const { data: myCards, isLoading: loadingMyCards } = useMyCardsQuery()
-const { data: allCards, isLoading: loadingAllCards } = useAllCardsQuery(1, 100)
-const createTradeMutation = useCreateTradeMutation()
+const { data: myCards, isLoading: loadingMyCards } = useMyCards()
+const { data: allCards, isLoading: loadingAllCards } = useAllCards(1, 100)
+const createTradeMutation = useCreateTrade()
 const isLoading = computed(
   () => loadingMyCards.value || loadingAllCards.value || createTradeMutation.isPending.value,
 )
@@ -42,7 +42,7 @@ const handleNext = () => {
   globalThis.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
-const handleSubmit = async () => {
+const handleSubmit = () => {
   if (selectedOffering.value.length === 0 || selectedReceiving.value.length === 0) return
 
   const cards = [
@@ -50,8 +50,14 @@ const handleSubmit = async () => {
     ...selectedReceiving.value.map((id) => ({ cardId: id, type: 'RECEIVING' as const })),
   ]
 
-  await createTradeMutation.mutateAsync({ cards })
-  router.push('/')
+  createTradeMutation.mutate(
+    { cards },
+    {
+      onSuccess: () => {
+        router.push('/')
+      },
+    },
+  )
 }
 </script>
 

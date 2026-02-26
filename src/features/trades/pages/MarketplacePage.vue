@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
-import { useTradesQuery } from '../composables/use-trades-query'
-import { useDeleteTradeMutation } from '../composables/use-delete-trade-mutation'
+import { useTrades } from '../composables/use-trades'
+import { useDeleteTrade } from '../composables/use-delete-trade'
 import { useAuth } from '@/features/auth/composables/use-auth'
 import TradeRequestItem from '../components/TradeRequestItem.vue'
 import Button from '@/components/ui/Button.vue'
@@ -10,8 +10,8 @@ import ConfirmationDialog from '@/components/ui/ConfirmationDialog.vue'
 import { Plus, Database, RefreshCw } from 'lucide-vue-next'
 
 const { isAuthenticated, user } = useAuth()
-const { data: trades, isLoading, isError, refetch } = useTradesQuery()
-const { mutate: deleteTrade, isPending: isDeleting } = useDeleteTradeMutation()
+const { data: trades, isLoading, isError, refetch } = useTrades()
+const { mutate: deleteTrade, isPending: isDeleting } = useDeleteTrade()
 
 const pendingDeleteId = ref<string | null>(null)
 const isConfirmOpen = ref(false)
@@ -23,8 +23,13 @@ const handleDelete = (id: string) => {
 
 const confirmDelete = () => {
   if (!pendingDeleteId.value) return
-  deleteTrade(pendingDeleteId.value)
-  pendingDeleteId.value = null
+  deleteTrade(pendingDeleteId.value, {
+    onSuccess: () => {
+      pendingDeleteId.value = null
+      isConfirmOpen.value = false
+      refetch()
+    },
+  })
 }
 </script>
 

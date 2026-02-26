@@ -2,16 +2,16 @@
 import { ref, computed } from 'vue'
 import { useRouter, RouterLink } from 'vue-router'
 import { useForm } from 'vee-validate'
-import { useRegisterMutation } from '../composables/use-register-mutation'
-import { useLoginMutation } from '../composables/use-login-mutation'
+import { useRegister } from '../composables/use-register'
+import { useLogin } from '../composables/use-login'
 import { registerSchema } from '../schemas/register-schema'
 import { getErrorMessage } from '@/lib/error-handler'
 import Button from '@/components/ui/Button.vue'
 import { FormInput, FormPasswordInput } from '@/components/ui/form'
 
 const router = useRouter()
-const registerMutation = useRegisterMutation()
-const loginMutation = useLoginMutation('/my-cards')
+const registerMutation = useRegister()
+const loginMutation = useLogin('/my-cards')
 
 const successMessage = ref('')
 const registerError = computed(() => registerMutation.error.value)
@@ -23,8 +23,8 @@ const { handleSubmit, resetForm } = useForm({
   validationSchema: registerSchema,
 })
 
-const makeLogin = async (email: string, password: string) => {
-  await loginMutation.mutateAsync(
+const makeLogin = (email: string, password: string) => {
+  loginMutation.mutate(
     {
       email,
       password,
@@ -42,9 +42,9 @@ const makeLogin = async (email: string, password: string) => {
   )
 }
 
-const onSubmit = handleSubmit(async (values) => {
-  await registerMutation.mutateAsync(values, {
-    onSuccess: async () => {
+const onSubmit = handleSubmit((values) => {
+  registerMutation.mutate(values, {
+    onSuccess: () => {
       successMessage.value = 'Inscrit de Duelista criado com sucesso! Iniciando sua jornada...'
       makeLogin(values.email, values.password)
     },

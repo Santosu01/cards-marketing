@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { useMyCardsQuery } from '../composables/use-my-cards-query'
+import { useMyCards } from '../composables/use-my-cards'
 import CardGrid from '../components/CardGrid.vue'
 import Button from '@/components/ui/Button.vue'
 import { Library, BookOpen, Crown } from 'lucide-vue-next'
 
-const { data: myCards, isLoading: loadingMyCards } = useMyCardsQuery()
+const { data: myCards, isLoading: loadingMyCards } = useMyCards()
 </script>
 
 <template>

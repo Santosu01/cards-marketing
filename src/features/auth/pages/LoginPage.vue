@@ -2,13 +2,13 @@
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useForm } from 'vee-validate'
-import { useLoginMutation } from '../composables/use-login-mutation'
+import { useLogin } from '../composables/use-login'
 import { loginSchema } from '../schemas/login-schema'
 import { getErrorMessage } from '@/lib/error-handler'
 import Button from '@/components/ui/Button.vue'
 import { FormInput, FormPasswordInput } from '@/components/ui/form'
 
-const loginMutation = useLoginMutation()
+const loginMutation = useLogin()
 const loginError = computed(() => loginMutation.error.value)
 const loginIsPending = computed(() => loginMutation.isPending.value)
 

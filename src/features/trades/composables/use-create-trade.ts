@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import { createTrade } from '../service/trades-service'
-import { TRADES_QUERY_KEY } from './use-trades-query'
+import { TRADES_QUERY_KEY } from './use-trades'
 import type { CreateTradeRequest } from '../types'
 
-export function useCreateTradeMutation() {
+export function useCreateTrade() {
   const queryClient = useQueryClient()
 
   return useMutation({

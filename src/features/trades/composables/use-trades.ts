@@ -3,7 +3,7 @@ import { getTrades } from '../service/trades-service'
 
 export const TRADES_QUERY_KEY = ['trades'] as const
 
-export function useTradesQuery(page = 1, limit = 100) {
+export function useTrades(page = 1, limit = 100) {
   return useQuery({
     queryKey: [...TRADES_QUERY_KEY, page, limit],
     queryFn: () => getTrades(page, limit),

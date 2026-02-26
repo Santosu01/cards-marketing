@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { RouterLink } from 'vue-router'
-import { useTradesQuery } from '../composables/use-trades-query'
-import { useDeleteTradeMutation } from '../composables/use-delete-trade-mutation'
+import { useTrades } from '../composables/use-trades'
+import { useDeleteTrade } from '../composables/use-delete-trade'
 import { useAuth } from '@/features/auth/composables/use-auth'
 import type { Trade } from '../types'
 import TradeRequestItem from '../components/TradeRequestItem.vue'
@@ -11,8 +11,8 @@ import ConfirmationDialog from '@/components/ui/ConfirmationDialog.vue'
 import { Plus, History, Sparkles } from 'lucide-vue-next'
 
 const { user } = useAuth()
-const { data: trades, isLoading } = useTradesQuery()
-const { mutate: deleteTrade, isPending: isDeleting } = useDeleteTradeMutation()
+const { data: trades, isLoading, refetch } = useTrades()
+const { mutate: deleteTrade, isPending: isDeleting } = useDeleteTrade()
 
 const currentUser = computed(() => user.value)
 
@@ -31,8 +31,13 @@ const handleDelete = (id: string) => {
 
 const confirmDelete = () => {
   if (!pendingDeleteId.value) return
-  deleteTrade(pendingDeleteId.value)
-  pendingDeleteId.value = null
+  deleteTrade(pendingDeleteId.value, {
+    onSuccess: () => {
+      pendingDeleteId.value = null
+      isConfirmOpen.value = false
+      refetch()
+    },
+  })
 }
 </script>
 

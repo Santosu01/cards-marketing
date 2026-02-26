@@ -5,7 +5,7 @@ import { useAuthStore } from '../stores/auth'
 import type { LoginFormValues } from '../schemas/login-schema'
 import type { LoginResponse } from '../types'
 
-export function useLoginMutation(redirectPath: string = '/') {
+export function useLogin(redirectPath: string = '/') {
   const router = useRouter()
   const authStore = useAuthStore()
 
