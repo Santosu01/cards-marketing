@@ -24,8 +24,6 @@
 
 **CardMarket** é uma SPA (Single Page Application) desenvolvida com Vue 3 que permite a usuários autenticados gerenciar sua coleção de cartas e criar/aceitar trocas com outros membros da plataforma.
 
-A aplicação consome a API REST [cards-marketplace-api](https://cards-marketplace-api.onrender.com) e está pronta para deploy na Vercel.
-
 ---
 
 ## 🛠 Tecnologias
@@ -88,8 +86,8 @@ src/
 
 ```bash
 # 1. Clone o repositório
-git clone https://github.com/seu-usuario/marketplace.git
-cd marketplace
+git clone https://github.com/Santosu01/cards-marketing.git
+cd cards-marketing
 
 # 2. Instale as dependências
 npm install
