@@ -1,9 +1,5 @@
 <script setup lang="ts">
-import {
-  FormField,
-  FormLabel,
-  FormMessage,
-} from './index'
+import { FormField, FormLabel, FormMessage } from './index'
 import Input from '../Input.vue'
 import { cn } from '@/lib/utils'
 

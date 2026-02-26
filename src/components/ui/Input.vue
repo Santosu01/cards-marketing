@@ -14,17 +14,20 @@ const props = defineProps<Props>()
 </script>
 
 <template>
-  <div class="relative w-full group">
+  <div class="group relative w-full">
     <input
       :type="type"
       v-model="model"
       :disabled="disabled"
       :placeholder="placeholder"
-      :class="cn(
-        'flex h-12 w-full rounded-lg border border-white/10 bg-white/[0.03] px-4 py-2 text-sm text-foreground shadow-inner transition-all placeholder:text-muted-foreground/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:border-primary/40 disabled:cursor-not-allowed disabled:opacity-50 hover:bg-white/[0.05] hover:border-white/20',
-        error && 'border-destructive/40 focus-visible:ring-destructive/40 focus-visible:border-destructive/40',
-        props.class
-      )"
+      :class="
+        cn(
+          'text-foreground placeholder:text-muted-foreground/40 focus-visible:ring-primary/40 focus-visible:border-primary/40 flex h-12 w-full rounded-lg border border-white/10 bg-white/[0.03] px-4 py-2 text-sm shadow-inner transition-all hover:border-white/20 hover:bg-white/[0.05] focus-visible:ring-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
+          error &&
+            'border-destructive/40 focus-visible:ring-destructive/40 focus-visible:border-destructive/40',
+          props.class,
+        )
+      "
     />
   </div>
 </template>

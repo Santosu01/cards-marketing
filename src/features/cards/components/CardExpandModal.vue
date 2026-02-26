@@ -13,72 +13,96 @@ const emit = defineEmits<{
 
 <template>
   <transition name="page">
-    <div v-if="card" class="fixed inset-0 z-[100] overflow-y-auto bg-background/95 backdrop-blur-2xl"
-      @click="emit('close')">
+    <div
+      v-if="card"
+      class="bg-background/95 fixed inset-0 z-[100] overflow-y-auto backdrop-blur-2xl"
+      @click="emit('close')"
+    >
       <!-- Wrapper to center the modal but allow scrolling -->
-      <div class="min-h-full flex items-center justify-center p-4 sm:p-8">
+      <div class="flex min-h-full items-center justify-center p-4 sm:p-8">
         <!-- Container with max-width and improved layout -->
         <div
-          class="relative max-w-5xl w-full bg-card/40 border-2 border-white/10 rounded-[2rem] sm:rounded-[2.5rem] shadow-[0_0_100px_-20px_hsla(var(--primary),0.3)] overflow-hidden holographic flex flex-col md:flex-row animate-in zoom-in-95 duration-500"
-          @click.stop>
-
+          class="bg-card/40 holographic animate-in zoom-in-95 relative flex w-full max-w-5xl flex-col overflow-hidden rounded-[2rem] border-2 border-white/10 shadow-[0_0_100px_-20px_hsla(var(--primary),0.3)] duration-500 sm:rounded-[2.5rem] md:flex-row"
+          @click.stop
+        >
           <!-- Close Button - Moved inside for easier containment -->
           <button
-            class="absolute top-4 right-4 sm:top-6 sm:right-6 w-10 h-10 sm:w-12 sm:h-12 bg-black/40 backdrop-blur-md border border-white/10 rounded-full flex items-center justify-center text-white hover:bg-primary transition-all hover:scale-110 active:scale-95 shadow-2xl z-20"
-            @click="emit('close')">
-            <X class="w-5 h-5 sm:w-6 h-6" />
+            class="hover:bg-primary absolute top-4 right-4 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-black/40 text-white shadow-2xl backdrop-blur-md transition-all hover:scale-110 active:scale-95 sm:top-6 sm:right-6 sm:h-12 sm:w-12"
+            @click="emit('close')"
+          >
+            <X class="h-5 h-6 w-5 sm:w-6" />
           </button>
 
           <!-- Card Image Side -->
           <div
-            class="w-full md:w-2/5 aspect-square md:aspect-auto bg-black/40 flex items-center justify-center p-6 sm:p-10 border-b md:border-b-0 md:border-r border-white/10">
-            <div class="relative w-full h-full max-h-[40vh] md:max-h-full group">
-              <img :src="card.imageUrl" :alt="card.name"
-                class="w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)] transform transition-transform duration-700 group-hover:scale-105" />
+            class="flex aspect-square w-full items-center justify-center border-b border-white/10 bg-black/40 p-6 sm:p-10 md:aspect-auto md:w-2/5 md:border-r md:border-b-0"
+          >
+            <div class="group relative h-full max-h-[40vh] w-full md:max-h-full">
+              <img
+                :src="card.imageUrl"
+                :alt="card.name"
+                class="h-full w-full transform object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)] transition-transform duration-700 group-hover:scale-105"
+              />
               <!-- Visual effect behind card -->
-              <div class="absolute inset-0 bg-primary/5 blur-[100px] -z-10 rounded-full animate-pulse"></div>
+              <div
+                class="bg-primary/5 absolute inset-0 -z-10 animate-pulse rounded-full blur-[100px]"
+              ></div>
             </div>
           </div>
 
           <!-- Card Details Side -->
           <div
-            class="w-full md:w-3/5 p-6 sm:p-12 flex flex-col justify-center space-y-6 sm:space-y-8 bg-gradient-to-br from-white/[0.03] to-transparent">
+            class="flex w-full flex-col justify-center space-y-6 bg-gradient-to-br from-white/[0.03] to-transparent p-6 sm:space-y-8 sm:p-12 md:w-3/5"
+          >
             <div class="space-y-3 sm:space-y-4">
               <div
-                class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] text-primary">
+                class="bg-primary/10 border-primary/20 text-primary inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[9px] font-black tracking-[0.2em] uppercase sm:text-[10px]"
+              >
                 Mestre Duelista
               </div>
               <h2
-                class="text-3xl sm:text-6xl font-black uppercase tracking-tighter text-white italic font-serif leading-tight">
+                class="font-serif text-3xl leading-tight font-black tracking-tighter text-white uppercase italic sm:text-6xl"
+              >
                 {{ card.name }}
               </h2>
             </div>
 
-            <div class="h-[2px] w-20 bg-gradient-to-r from-primary to-transparent"></div>
+            <div class="from-primary h-[2px] w-20 bg-gradient-to-r to-transparent"></div>
 
             <div class="space-y-4 sm:space-y-6">
               <div class="flex items-center gap-4">
                 <span
-                  class="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-muted-foreground">Descrição
-                  do
-                  Card</span>
+                  class="text-muted-foreground text-[9px] font-black tracking-widest uppercase sm:text-[10px]"
+                  >Descrição do Card</span
+                >
                 <span class="h-[1px] flex-1 bg-white/5"></span>
               </div>
               <p
-                class="text-base sm:text-xl text-muted-foreground font-medium leading-relaxed italic border-l-4 border-primary/20 pl-4 sm:pl-6 py-1 sm:py-2">
+                class="text-muted-foreground border-primary/20 border-l-4 py-1 pl-4 text-base leading-relaxed font-medium italic sm:py-2 sm:pl-6 sm:text-xl"
+              >
                 {{ card.description }}
               </p>
             </div>
 
             <div class="pt-4 sm:pt-8">
               <div class="grid grid-cols-2 gap-4 sm:gap-6">
-                <div class="p-3 sm:p-4 rounded-2xl bg-white/[0.02] border border-white/5 space-y-1">
-                  <p class="text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-primary/60">Raridade</p>
-                  <p class="text-base sm:text-lg font-bold text-white uppercase italic">Ultra Raro</p>
+                <div class="space-y-1 rounded-2xl border border-white/5 bg-white/[0.02] p-3 sm:p-4">
+                  <p
+                    class="text-primary/60 text-[8px] font-black tracking-widest uppercase sm:text-[9px]"
+                  >
+                    Raridade
+                  </p>
+                  <p class="text-base font-bold text-white uppercase italic sm:text-lg">
+                    Ultra Raro
+                  </p>
                 </div>
-                <div class="p-3 sm:p-4 rounded-2xl bg-white/[0.02] border border-white/5 space-y-1">
-                  <p class="text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-primary/60">Tipo</p>
-                  <p class="text-base sm:text-lg font-bold text-white uppercase italic">Monstro</p>
+                <div class="space-y-1 rounded-2xl border border-white/5 bg-white/[0.02] p-3 sm:p-4">
+                  <p
+                    class="text-primary/60 text-[8px] font-black tracking-widest uppercase sm:text-[9px]"
+                  >
+                    Tipo
+                  </p>
+                  <p class="text-base font-bold text-white uppercase italic sm:text-lg">Monstro</p>
                 </div>
               </div>
             </div>

@@ -11,7 +11,7 @@ defineProps<Props>()
   <p
     v-if="error"
     :id="id ? `${id}-form-item-message` : undefined"
-    class="text-xs font-medium text-destructive"
+    class="text-destructive text-xs font-medium"
   >
     {{ error }}
   </p>

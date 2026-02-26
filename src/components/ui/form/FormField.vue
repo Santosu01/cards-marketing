@@ -12,10 +12,6 @@ const id = useId()
 
 <template>
   <Field v-slot="{ field, errorMessage }" :name="props.name">
-    <slot 
-      :id="id"
-      :component-field="field" 
-      :error-message="errorMessage" 
-    />
+    <slot :id="id" :component-field="field" :error-message="errorMessage" />
   </Field>
 </template>

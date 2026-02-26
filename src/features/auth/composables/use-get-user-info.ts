@@ -22,19 +22,16 @@ export function useGetUserInfo() {
         authStore.setUser(newData)
       }
     },
-    { immediate: true }
+    { immediate: true },
   )
 
   // Handle errors (e.g., token expired)
-  watch(
-    query.error,
-    (error) => {
-      if (error) {
-        console.error('Session expired or user fetch failed:', error)
-        authStore.logout()
-      }
+  watch(query.error, (error) => {
+    if (error) {
+      console.error('Session expired or user fetch failed:', error)
+      authStore.logout()
     }
-  )
+  })
 
   return query
 }

@@ -41,5 +41,5 @@ export const cookies = {
    */
   remove(name: string) {
     this.set(name, '', -1)
-  }
+  },
 }

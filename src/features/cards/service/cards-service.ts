@@ -3,7 +3,7 @@ import type { CardsResponse, Card, AddCardsRequest } from '../types'
 
 export async function getAllCards(page = 1, rpp = 20): Promise<CardsResponse> {
   const response = await api.get<CardsResponse>('/cards', {
-    params: { page, rpp }
+    params: { page, rpp },
   })
   return response.data
 }

@@ -3,7 +3,7 @@ import type { TradesResponse, CreateTradeRequest } from '../types'
 
 export async function getTrades(page = 1, rpp = 10): Promise<TradesResponse> {
   const response = await api.get<TradesResponse>('/trades', {
-    params: { page, rpp }
+    params: { page, rpp },
   })
   return response.data
 }

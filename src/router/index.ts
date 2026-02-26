@@ -26,6 +26,12 @@ const router = createRouter({
       meta: { requiresAuth: true },
     },
     {
+      path: '/my-cards/library',
+      name: 'my-cards-library',
+      component: () => import('@/features/cards/pages/CardLibraryPage.vue'),
+      meta: { requiresAuth: true },
+    },
+    {
       path: '/my-trades',
       name: 'my-trades',
       component: () => import('@/features/trades/pages/MyTradesPage.vue'),
